@@ -1,5 +1,6 @@
 package com.example.cyborg.Adaptors;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class OutStandingAdapter extends RecyclerView.Adapter<OutStandingAdapter.
         return new OutStandingViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OutStandingViewHolder holder, int position) {
 
@@ -50,6 +52,7 @@ public class OutStandingAdapter extends RecyclerView.Adapter<OutStandingAdapter.
         holder.outstandingInfo.setText(String.format("%s | %s",currentModel.getVoucherDate(),currentModel.getVoucherRef()));
         holder.outstandingDueOn.setText(String.format("Due On : %s",currentModel.getBalanceDueOn()));
         holder.outstandingOverDue.setText(String.format("Over Due : %s",currentModel.getBalanceOverDue()));
+        holder.outstandingContact.setText(currentModel.getBalanceArea()+" | "+currentModel.getBalanceMobile());
 
     }
 
@@ -99,7 +102,7 @@ public class OutStandingAdapter extends RecyclerView.Adapter<OutStandingAdapter.
         private AppCompatTextView outstandingInfo;
         private AppCompatTextView outstandingDueOn;
         private AppCompatTextView outstandingOverDue;
-
+        private AppCompatTextView outstandingContact;
 
         public  OutStandingViewHolder(View v){
             super(v);
@@ -109,6 +112,7 @@ public class OutStandingAdapter extends RecyclerView.Adapter<OutStandingAdapter.
             outstandingInfo = v.findViewById(R.id.outstandingInfo);
             outstandingDueOn = v.findViewById(R.id.outstandingDueOn);
             outstandingOverDue = v.findViewById(R.id.outstandingOverDue);
+            outstandingContact = v.findViewById(R.id.outstandingContact);
         }
 
     }

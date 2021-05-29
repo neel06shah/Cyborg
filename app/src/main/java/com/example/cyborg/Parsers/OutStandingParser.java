@@ -50,7 +50,9 @@ public class OutStandingParser extends AsyncTask<String,Void, ArrayList<Outstand
                                 outS.getElementsByTagName("BILLPARTY").item(0).getTextContent(),
                                 amount,
                                 outS.getElementsByTagName("BILLDUE").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent()));
+                                outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent(),
+                                outS.getElementsByTagName("BILLARYA").item(0).getTextContent(),
+                                outS.getElementsByTagName("BILLCONTACT").item(0).getTextContent()));
 
                     }
                 }
