@@ -25,6 +25,8 @@ public class OutstandingViewModel extends ViewModel implements OnNetworkTaskComp
 
     private String reportName ;
 
+    private String areaName;
+
     private NetworkRepository networkRepository;
 
     public OutstandingViewModel(){
@@ -34,6 +36,7 @@ public class OutstandingViewModel extends ViewModel implements OnNetworkTaskComp
         this.payLoads = new PayLoads();
         this.networkRepository = new NetworkRepository(this);
         this.reportName = null;
+        this.areaName = null;
     }
 
     private void pullVouchers() {
@@ -47,6 +50,10 @@ public class OutstandingViewModel extends ViewModel implements OnNetworkTaskComp
 
     public void setReport(String reportName){
         this.reportName = reportName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     public LiveData<String> getError(){
@@ -65,7 +72,7 @@ public class OutstandingViewModel extends ViewModel implements OnNetworkTaskComp
 
     @Override
     public void OnSuccess(String res) {
-       new OutStandingParser(this).execute(res);
+       new OutStandingParser(this, this.areaName).execute(res);
     }
 
     @Override

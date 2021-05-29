@@ -1,13 +1,5 @@
-package com.example.cyborg.Views;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+package com.example.cyborg.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -19,45 +11,54 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cyborg.Adaptors.OutStandingAdapter;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.example.cyborg.Adaptors.AreaAdaptor;
 import com.example.cyborg.R;
 import com.example.cyborg.Utils.DateUtil;
+import com.example.cyborg.ViewModels.OutstandingAreaViewModel;
 import com.example.cyborg.ViewModels.OutstandingViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
-public class OutStanding extends AppCompatActivity {
+public class OutStandingArea extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MaterialDatePicker<?> datePicker;
     private String[] dates = new String[2];
     private AppCompatButton periodButton;
-    private OutStandingAdapter outStandingAdapter;
+    private AreaAdaptor areaAdaptor;
     private ProgressBar progressBar;
     private LinearLayoutCompat noData;
-    private OutstandingViewModel outstandingViewModel;
-
+    private OutstandingAreaViewModel outstandingAreaViewModel;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_out_standing);
+        setContentView(R.layout.activity_out_standing_area);
+
         if(getIntent().hasExtra("Report Name")) {
             InitToolBar(getIntent().getStringExtra("Report Name"));
             InitDatePicker();
             InitRecycleView();
             progressBar = findViewById(R.id.appProgressBar);
             noData = findViewById(R.id.appNoData);
-            InitViewModel(getIntent().getStringExtra("Report Name"), getIntent().getStringExtra("areaName"));
+            InitViewModel(getIntent().getStringExtra("Report Name"));
         }else{
             showSnackBar("Invalid Input");
             this.finish();
         }
-
     }
-
     private void hideProgress(){
         if(progressBar.getVisibility() == View.VISIBLE) progressBar.setVisibility(View.GONE);
     }
@@ -80,21 +81,20 @@ public class OutStanding extends AppCompatActivity {
     }
 
 
-    private void InitViewModel(String reportName, String areaName){
-        outstandingViewModel = new ViewModelProvider(this).get(OutstandingViewModel.class);
-        outstandingViewModel.setReport(reportName);
-        outstandingViewModel.setAreaName(areaName);
-        outstandingViewModel.getData().observe(this,vouchers->{
-            if(outStandingAdapter == null) {
-                outStandingAdapter = new OutStandingAdapter(vouchers);
-                recyclerView.setAdapter(outStandingAdapter);
+    private void InitViewModel(String reportName){
+        outstandingAreaViewModel = new ViewModelProvider(this).get(OutstandingAreaViewModel.class);
+        outstandingAreaViewModel.setReport(reportName);
+        outstandingAreaViewModel.getData().observe(this,vouchers->{
+            if(areaAdaptor == null) {
+                areaAdaptor = new AreaAdaptor(OutStandingArea.this,vouchers);
+                recyclerView.setAdapter(areaAdaptor);
                 toggleView();
             }else{
-                outStandingAdapter.updateAdapter(vouchers);
+                areaAdaptor.updateAdapter(vouchers);
             }
         });
-        outstandingViewModel.hasData().observe(this,this::OnDataEmpty);
-        outstandingViewModel.getError().observe(this,this::showSnackBar);
+        outstandingAreaViewModel.hasData().observe(this,this::OnDataEmpty);
+        outstandingAreaViewModel.getError().observe(this,this::showSnackBar);
     }
 
     private void showSnackBar(String message){
@@ -127,7 +127,7 @@ public class OutStanding extends AppCompatActivity {
 
         dates[0] = period[0];
         dates[1] = period[1];
-        outstandingViewModel.updateView(period[0],period[1]);
+        outstandingAreaViewModel.updateView(period[0],period[1]);
         periodButton.setText(String.format("%s  -  %s",dates[0],dates[1]));
 
     }
@@ -174,11 +174,10 @@ public class OutStanding extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(outStandingAdapter != null) outStandingAdapter.getFilter().filter(newText);
+                if(areaAdaptor != null) areaAdaptor.getFilter().filter(newText);
                 return true;
             }
         });
         return true;
     }
-
 }

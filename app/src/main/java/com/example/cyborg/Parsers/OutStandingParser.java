@@ -1,6 +1,7 @@
 package com.example.cyborg.Parsers;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.example.cyborg.Interface.OnParseCompleted;
 import com.example.cyborg.Models.OutstandingModel;
@@ -23,12 +24,14 @@ import javax.xml.parsers.ParserConfigurationException;
 public class OutStandingParser extends AsyncTask<String,Void, ArrayList<OutstandingModel>> {
 
 
-    private OnParseCompleted onParseCompleted;
-    private DocumentBuilderFactory documentBuilderFactory;
+    private final OnParseCompleted onParseCompleted;
+    private final DocumentBuilderFactory documentBuilderFactory;
+    private final String area;
 
-    public OutStandingParser(OnParseCompleted onParseCompleted){
+    public OutStandingParser(OnParseCompleted onParseCompleted, String areaName){
         this.onParseCompleted = onParseCompleted;
         this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        this.area = areaName;
     }
 
 
@@ -43,17 +46,20 @@ public class OutStandingParser extends AsyncTask<String,Void, ArrayList<Outstand
                 for (int i = 0; i < nodes.getLength(); i++) {
                     if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
                         Element outS = (Element) nodes.item(i);
-                        String amount = outS.getElementsByTagName("BILLCL").item(0).getTextContent();
-                        amount = Double.parseDouble(amount)<0?String.valueOf(Double.parseDouble(amount) * (-1)):amount;
-                        outstandingModels.add(new OutstandingModel(outS.getElementsByTagName("BILLDATE").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLREF").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLPARTY").item(0).getTextContent(),
-                                amount,
-                                outS.getElementsByTagName("BILLDUE").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLARYA").item(0).getTextContent(),
-                                outS.getElementsByTagName("BILLCONTACT").item(0).getTextContent()));
+                        String a = outS.getElementsByTagName("BILLARYA").item(0).getTextContent();
+                        if(a.equals(area) || area == null) {
+                            String amount = outS.getElementsByTagName("BILLCL").item(0).getTextContent();
+                            amount = Double.parseDouble(amount) < 0 ? String.valueOf(Double.parseDouble(amount) * (-1)) : amount;
+                            outstandingModels.add(new OutstandingModel(outS.getElementsByTagName("BILLDATE").item(0).getTextContent(),
+                                    outS.getElementsByTagName("BILLREF").item(0).getTextContent(),
+                                    outS.getElementsByTagName("BILLPARTY").item(0).getTextContent(),
+                                    amount,
+                                    outS.getElementsByTagName("BILLDUE").item(0).getTextContent(),
+                                    outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent(),
+                                    outS.getElementsByTagName("BILLARYA").item(0).getTextContent(),
+                                    outS.getElementsByTagName("BILLCONTACT").item(0).getTextContent()));
 
+                        }
                     }
                 }
 

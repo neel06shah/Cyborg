@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements OnDashBoardClick 
         dashBoardCardModels.add(new DashBoardCardModel("Payments",R.drawable.ic_baseline_monetization_on_24));
         dashBoardCardModels.add(new DashBoardCardModel("Receipts",R.drawable.ic_baseline_attach_money_24));
         dashBoardCardModels.add(new DashBoardCardModel("Payables",R.drawable.ic_baseline_payment_24));
+//        dashBoardCardModels.add(new DashBoardCardModel("Receivables",R.drawable.ic_baseline_receipt_24));
         dashBoardCardModels.add(new DashBoardCardModel("Receivables",R.drawable.ic_baseline_receipt_24));
 
         GridView gridView = findViewById(R.id.homeGrid);
@@ -107,10 +108,15 @@ public class HomeActivity extends AppCompatActivity implements OnDashBoardClick 
                 intentPayable.putExtra("Report Name",Constants.PAYABLE);
                 startActivity(intentPayable);
                 break;
+//            case 11:
+//                Intent intentReceivable = new Intent(this,OutStanding.class);
+//                intentReceivable.putExtra("Report Name",Constants.RECEIVABLE);
+//                startActivity(intentReceivable);
+//                break;
             case 11:
-                Intent intentReceivable = new Intent(this,OutStanding.class);
-                intentReceivable.putExtra("Report Name",Constants.RECEIVABLE);
-                startActivity(intentReceivable);
+                Intent intentOutStanding = new Intent(this,OutStandingArea.class);
+                intentOutStanding.putExtra("Report Name",Constants.RECEIVABLE);
+                startActivity(intentOutStanding);
                 break;
             default:
                 break;
