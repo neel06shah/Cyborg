@@ -13,7 +13,7 @@ With this application you can connect to your tally on a local network. All you 
 * Payables & Receivables
 
 ## How to use
-###Tally
+### Tally
 
 You need to enable tally to act as an odbc server and set the port to 9000 which is default
 ```
@@ -22,8 +22,7 @@ You need to enable tally to act as an odbc server and set the port to 9000 which
 3. Advanced Configuration
 4. Set tallyerp9 acting as 'Server' and enable ODBC Server to 'Yes' then set Port to '9000' which is default
 ```
-
-###Windows
+### Windows
 
 Use the following command to get IP address from your PC
 ```
