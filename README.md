@@ -1,28 +1,33 @@
-# Cyborg
+# Tally Access using LAN
 
-**Tally On Lan**
+## About
+With this application you can connect to your tally on a local network. All you need is IP Address of the Machine where tally is running and ODBC Port of tally. You can view reports like 
+* Stock Sumary
+* DayBook
+* Profit & Loss
+* Balance Sheet
+* Ledger Vouchers
+* Sales Register
+* Purchase Register
+* Payments & Receipts
+* Payables & Receivables
 
-Started as a fun project and ended here
-
-With this application you can connect to your tally on a local network
-
-You can view reports like StockSumary,DayBook,Profit&Loss,BalanceSheet,LedgerVoucher etc..
-
-All you need is IP Address of the Machine where tally is running and ODBC Port of tally
+## How to use
+### Tally
 
 You need to enable tally to act as an odbc server and set the port to 9000 which is default
+```
+1. GatewayOfTally
+2. F12 Configuration
+3. Advanced Configuration
+4. Set tallyerp9 acting as 'Server' and enable ODBC Server to 'Yes' then set Port to '9000' which is default
+```
+### Windows
 
-You can enable by going to GatewayOfTally->F12 Configuration->Advanced Configuration->Set tallyerp9 acting as 'Server' and enable ODBC Server to 'Yes' then set Port to '9000' which is default
-
-Make your Machine ip address static (where tally is installed) so you need to enter everytime
-
-While using the application make sure tally is running and company is opened
-
-Browse through the source tree, if you are interested to see how it works
-
-Its free software and free to use,go ahead and clone/download, make changes and do a Pull request 
-
-Always welcome to add/request new features and be a part of the project
+Use the following command to get IP address from your PC
+```
+$ipconfig
+```
 
 
 
