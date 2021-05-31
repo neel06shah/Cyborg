@@ -86,7 +86,7 @@ public class OutStanding extends AppCompatActivity {
         outstandingViewModel.setAreaName(areaName);
         outstandingViewModel.getData().observe(this,vouchers->{
             if(outStandingAdapter == null) {
-                outStandingAdapter = new OutStandingAdapter(vouchers);
+                outStandingAdapter = new OutStandingAdapter(OutStanding.this,vouchers);
                 recyclerView.setAdapter(outStandingAdapter);
                 toggleView();
             }else{

@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -50,18 +51,24 @@ public class OutStandingParser extends AsyncTask<String,Void, ArrayList<Outstand
                         if(a.equals(area) || area == null) {
                             String amount = outS.getElementsByTagName("BILLCL").item(0).getTextContent();
                             amount = Double.parseDouble(amount) < 0 ? String.valueOf(Double.parseDouble(amount) * (-1)) : amount;
+                            String overdue = outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent();
+                            overdue = overdue.equals("") ? "0" : overdue;
                             outstandingModels.add(new OutstandingModel(outS.getElementsByTagName("BILLDATE").item(0).getTextContent(),
                                     outS.getElementsByTagName("BILLREF").item(0).getTextContent(),
                                     outS.getElementsByTagName("BILLPARTY").item(0).getTextContent(),
                                     amount,
                                     outS.getElementsByTagName("BILLDUE").item(0).getTextContent(),
-                                    outS.getElementsByTagName("BILLOVERDUE").item(0).getTextContent(),
+                                    overdue,
                                     outS.getElementsByTagName("BILLARYA").item(0).getTextContent(),
                                     outS.getElementsByTagName("BILLCONTACT").item(0).getTextContent()));
 
                         }
                     }
                 }
+
+            if (outstandingModels.size() > 0) {
+                Collections.sort(outstandingModels, (object1, object2) -> object1.getLedgerName().compareTo(object2.getLedgerName()));
+            }
 
             return  outstandingModels;
         } catch (IOException | SAXException | ParserConfigurationException | NullPointerException e) {

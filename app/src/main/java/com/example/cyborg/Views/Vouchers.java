@@ -53,7 +53,7 @@ public class Vouchers extends AppCompatActivity {
             InitDatePicker();
             progressBar = findViewById(R.id.appProgressBar);
             noData = findViewById(R.id.appNoData);
-            handleDataModel(getIntent().getStringExtra("Report Name"),getIntent().getStringExtra("Type"));
+            handleDataModel(getIntent().getStringExtra("Report Name"), Objects.requireNonNull(getIntent().getStringExtra("Type")));
         }else {
             showSnackBar("Invalid Input");
             this.finish();

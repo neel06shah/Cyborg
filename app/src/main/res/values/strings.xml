@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cyborg</string>
+    <string name="app_name">RemoteTally</string>
     <string name="period">Period</string>
     <string name="search">Search</string>
     <string name="info">Info</string>
